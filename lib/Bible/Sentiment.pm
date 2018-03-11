@@ -48,8 +48,6 @@ any '/' => sub {
     my $opinion = Lingua::EN::Opinion->new( file => $file[0] );
     $opinion->analyze();
 
-    my %scores;
-    @scores{ @{ $opinion->sentences } } = @{ $opinion->scores };
     my @locations;
     if ( $chunk == 1 ) {
         my $i = 0;
