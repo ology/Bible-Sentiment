@@ -1,0 +1,29 @@
+<canvas id="line-chart" width="800" height="450"></canvas>
+
+<script>
+new Chart(document.getElementById("line-chart"), {
+    type: 'line',
+    data: {
+        labels: [[% labels.join(',') %]],
+        datasets: [
+            { 
+                data: [[% data.join(',') %]],
+                label: "[% label %]",
+                borderColor: "#3e95cd",
+                pointRadius: 0,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Bible Sentiment Across Narrative Time'
+        },
+        animation: {
+            duration: 0 // general animation time
+        },
+        responsiveAnimationDuration: 0 // animation duration after a resize
+    }
+});
+</script>
