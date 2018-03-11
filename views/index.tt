@@ -1,14 +1,16 @@
 <form style="margin:0; padding:0; text-align: center" method="post" action="/">
     <a href="/?book=[% prevbook %]&chunk=[% chunk %]&term=[% term %]">&laquo;</a>
-    <select name="book" onchange="this.form.submit()">
+    &nbsp;
+    <label for="book">Book: </label><select name="book" onchange="this.form.submit()">
 [% FOREACH i in books.nsort %]
         <option value="[% books.$i %]" [% books.$i == book ? 'selected' : '' %]>[% i %]</option>
 [% END %]
     </select>
-    <input type="text" name="chunk" size="3" maxlength="3" value="[% chunk %]"/>
+    <label for="chunk">Scale: </label><input type="text" name="chunk" size="3" maxlength="3" value="[% chunk %]"/>
+    <label for="term">Term: </label><input type="text" name="term" size="10" maxlength="20" value="[% term %]"/>
+    &nbsp;
     <a href="/?book=[% nextbook %]&chunk=[% chunk %]&term=[% term %]">&raquo;</a>
     <br>
-    <input type="text" name="term" size="10" maxlength="20" value="[% term %]"/>
     <input type="submit" />
 </form>
 
@@ -60,7 +62,7 @@ new Chart(document.getElementById("line-chart"), {
     options: {
         title: {
             display: true,
-            text: 'Bible Sentiment Across Narrative Time'
+            text: 'Sentiment Across Narrative Time'
         },
         animation: {
             duration: 0 // general animation time
