@@ -52,10 +52,12 @@ any '/' => sub {
     @scores{ @{ $opinion->sentences } } = @{ $opinion->scores };
     my @locations;
     my $i = 0;
-    for my $sentence ( @{ $opinion->sentences } ) {
-        push @locations, $i
-            if $term && $sentence =~ /$term/;
-        $i++;
+    if ( $chunk == 1 ) {
+        for my $sentence ( @{ $opinion->sentences } ) {
+            push @locations, $i
+                if $term && $sentence =~ /$term/;
+            $i++;
+        }
     }
 
     my $score = $opinion->averaged_score($chunk);
