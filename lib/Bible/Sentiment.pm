@@ -27,29 +27,38 @@ Main page.
 
 =cut
 
-get '/:index?' => sub {
+any '/' => sub {
+    my $book  = body_parameters->get('book') || query_parameters->get('book') || '01';
+    my $chunk = body_parameters->get('chunk') || query_parameters->get('chunk') || 5;
+
     my @files = File::Find::Rule->file()->name( '*.txt' )->in('public/text');
+    my @file  = grep { /$book/ } @files;
 
-    my $index = route_parameters->get('index');
-
-    my ( $n, $factor ) = split /_/, $index;
-    $n ||= '01';    # Genesis
-    $factor ||= 5;  # Chunks of 5
-
-    my @file = grep { /$n/ } @files;
-
-    ( my $name = $file[0] ) =~ s/^public\/text\/$n-(.*?)\.txt$/$1/;
+    my $name;
+    my $books;
+    for my $file ( @files ) {
+        if ( $file =~ /^public\/text\/(\d+)-(.*?)\.txt$/ ) {
+            $books->{$2} = $1;
+            $name = $2
+                if $1 eq $book;
+        }
+    }
 
     my $opinion = Lingua::EN::Opinion->new( file => $file[0] );
     $opinion->analyze();
 
-    my $score = $opinion->averaged_score($factor);
+    my $score = $opinion->averaged_score($chunk);
 
     template 'index' => {
         title  => 'Bible::Sentiment',
         labels => [ 1 .. @$score ],
         data   => $score,
         label  => $name,
+        books  => $books,
+        book   => $book,
+        chunk  => $chunk,
+        prevbook   => sprintf( '%02d', $book - 1 ),
+        nextbook   => sprintf( '%02d', $book + 1 ),
     };
 };
 

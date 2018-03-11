@@ -1,3 +1,14 @@
+<form style="margin:0; padding:0; text-align: center" method="post" action="/">
+    <a href="/?book=[% prevbook %]&chunk=[% chunk %]">&laquo;</a>
+    <select name="book" onchange="this.form.submit()">
+[% FOREACH i in books.nsort %]
+        <option value="[% books.$i %]" [% books.$i == book ? 'selected' : '' %]>[% i %]</option>
+[% END %]
+    </select>
+    <input type="text" name="chunk" size="3" maxlength="3" value="[% chunk %]"/>
+    <a href="/?book=[% nextbook %]&chunk=[% chunk %]">&raquo;</a>
+</form>
+
 <canvas id="line-chart" width="800" height="450"></canvas>
 
 <script>
