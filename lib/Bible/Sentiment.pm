@@ -28,10 +28,11 @@ Main page.
 =cut
 
 any '/' => sub {
-    my $book  = body_parameters->get('book') || query_parameters->get('book') || '01';
+    my $book  = body_parameters->get('book')  || query_parameters->get('book')  || '01';
     my $chunk = body_parameters->get('chunk') || query_parameters->get('chunk') || 5;
+    my $term  = body_parameters->get('term')  || query_parameters->get('term')  || '';
 
-    my @files = File::Find::Rule->file()->name( '*.txt' )->in('public/text');
+    my @files = File::Find::Rule->file()->name('*.txt')->in('public/text');
     my @file  = grep { /$book/ } @files;
 
     my $name;
@@ -47,18 +48,30 @@ any '/' => sub {
     my $opinion = Lingua::EN::Opinion->new( file => $file[0] );
     $opinion->analyze();
 
+    my %scores;
+    @scores{ @{ $opinion->sentences } } = @{ $opinion->scores };
+    my @locations;
+    my $i = 0;
+    for my $sentence ( @{ $opinion->sentences } ) {
+        push @locations, $i
+            if $term && $sentence =~ /$term/;
+        $i++;
+    }
+
     my $score = $opinion->averaged_score($chunk);
 
     template 'index' => {
-        title  => 'Bible::Sentiment',
-        labels => [ 1 .. @$score ],
-        data   => $score,
-        label  => $name,
-        books  => $books,
-        book   => $book,
-        chunk  => $chunk,
-        prevbook   => sprintf( '%02d', $book - 1 ),
-        nextbook   => sprintf( '%02d', $book + 1 ),
+        title     => 'Bible::Sentiment',
+        labels    => [ 1 .. @$score ],
+        data      => $score,
+        label     => $name,
+        books     => $books,
+        book      => $book,
+        chunk     => $chunk,
+        prevbook  => sprintf( '%02d', $book - 1 ),
+        nextbook  => sprintf( '%02d', $book + 1 ),
+        locations => \@locations,
+        term      => $term,
     };
 };
 
