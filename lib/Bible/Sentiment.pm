@@ -27,15 +27,22 @@ Main page.
 
 =cut
 
-get '/:index' => sub {
+get '/:index?' => sub {
     my @files = File::Find::Rule->file()->name( '*.txt' )->in('public/text');
-    my $index = route_parameters->get('index') || '00_1';
+
+    my $index = route_parameters->get('index');
+
     my ( $n, $factor ) = split /_/, $index;
+    $n ||= '01';    # Genesis
+    $factor ||= 5;  # Chunks of 5
+
     my @file = grep { /$n/ } @files;
+
     ( my $name = $file[0] ) =~ s/^public\/text\/$n-(.*?)\.txt$/$1/;
 
     my $opinion = Lingua::EN::Opinion->new( file => $file[0] );
     $opinion->analyze();
+
     my $score = $opinion->averaged_score($factor);
 
     template 'index' => {
@@ -53,5 +60,7 @@ __END__
 =head1 SEE ALSO
 
 L<Dancer2>
+
+L<Lingua::EN::Opinion>
 
 =cut
