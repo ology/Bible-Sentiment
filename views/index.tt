@@ -55,7 +55,7 @@ new Chart(document.getElementById("line-chart"), {
                 label: "[% label %]",
                 borderColor: "#3e95cd",
                 pointRadius: 0,
-                fill: false
+                fill: true
             }
         ]
     },
