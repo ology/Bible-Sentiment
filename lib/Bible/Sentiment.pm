@@ -51,8 +51,8 @@ any '/' => sub {
     my %scores;
     @scores{ @{ $opinion->sentences } } = @{ $opinion->scores };
     my @locations;
-    my $i = 0;
     if ( $chunk == 1 ) {
+        my $i = 0;
         for my $sentence ( @{ $opinion->sentences } ) {
             push @locations, $i
                 if $term && $sentence =~ /$term/;
