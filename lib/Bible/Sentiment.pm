@@ -54,10 +54,13 @@ any '/' => sub {
     my $score_text = '';
     if ( $chunk == 1 ) {
         if ( $term ) {
+            $score_text .= "Occurrences of '$term':\n\n";
             my $i = 0;
             for my $sentence ( @{ $opinion->sentences } ) {
-                push @locations, $i
-                    if $term && $sentence =~ /$term/;
+                if ( $sentence =~ /$term/ ) {
+                    push @locations, $i;
+                    $score_text .= ( $i + 1 ) . ". $sentence\n\n";
+                }
                 $i++;
             }
         }
