@@ -1,6 +1,8 @@
 <form style="margin:0; padding:0; text-align: center" method="post" action="/">
+[% IF prevbook > 0 %]
     <a href="/?book=[% prevbook %]&chunk=[% chunk %]&term=[% term %]">&laquo;</a>
     &nbsp;
+[% END %]
     <label for="book">Book: </label><select name="book">
 [% FOREACH i in books.nsort %]
         <option value="[% books.$i %]" [% books.$i == book ? 'selected' : '' %]>[% i %]</option>
@@ -8,8 +10,10 @@
     </select>
     <label for="chunk">Scale: </label><input type="text" name="chunk" size="3" maxlength="3" value="[% chunk %]"/>
     <label for="term">Term: </label><input type="text" name="term" size="10" maxlength="20" value="[% term %]"/>
+[% IF nextbook <= 66 %]
     &nbsp;
     <a href="/?book=[% nextbook %]&chunk=[% chunk %]&term=[% term %]">&raquo;</a>
+[% END %]
     <br>
     <input type="submit" />
 </form>
