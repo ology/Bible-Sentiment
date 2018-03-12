@@ -1,5 +1,5 @@
 <form style="margin:0; padding:0; text-align: center" method="post" action="/">
-[% IF prevbook > 0 %]
+[% IF prevbook > 0 && prevbook < 66 %]
     <a href="/?book=[% prevbook %]&chunk=[% chunk %]&term=[% term %]">&laquo;</a>
     &nbsp;
 [% END %]
