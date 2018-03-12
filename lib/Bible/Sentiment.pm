@@ -53,31 +53,34 @@ any '/' => sub {
     my @locations;
     my $score_text = '';
     if ( $chunk == 1 ) {
-        my $i = 0;
-        for my $sentence ( @{ $opinion->sentences } ) {
-            push @locations, $i
-                if $term && $sentence =~ /$term/;
-            $i++;
+        if ( $term ) {
+            my $i = 0;
+            for my $sentence ( @{ $opinion->sentences } ) {
+                push @locations, $i
+                    if $term && $sentence =~ /$term/;
+                $i++;
+            }
         }
+        else {
+            my %score;
+            @score{ @{ $opinion->sentences } } = @{ $opinion->scores };
 
-        my %score;
-        @score{ @{ $opinion->sentences } } = @{ $opinion->scores };
+            my $min = min( @{ $opinion->scores } );
+            my $max = max( @{ $opinion->scores } );
 
-        my $min = min( @{ $opinion->scores } );
-        my $max = max( @{ $opinion->scores } );
-
-        $score_text .= "Most positive sentences:\n\n";
-        for my $positive ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
-            next unless $positive->[0] == $max;
-            $score_text .= "$positive->[1]\n";
+            $score_text .= "Most positive sentences:\n\n";
+            for my $positive ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
+                next unless $positive->[0] == $max;
+                $score_text .= "$positive->[1]\n";
+            }
+            $score_text .= "\nMost negative sentences:\n\n";
+            for my $negative ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
+                next unless $negative->[0] == $min;
+                $score_text .= "$negative->[1]\n";
+            }
+            $score_text .= "\nAverage sentence score: " . mean( @{ $opinion->scores } ) . "\n";
+            $score_text .= "\nTotal sentence score: " . sum0( @{ $opinion->scores } ) . "\n";
         }
-        $score_text .= "\nMost negative sentences:\n\n";
-        for my $negative ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
-            next unless $negative->[0] == $min;
-            $score_text .= "$negative->[1]\n";
-        }
-        $score_text .= "\nAverage sentence score: " . mean( @{ $opinion->scores } ) . "\n";
-        $score_text .= "\nTotal sentence score: " . sum0( @{ $opinion->scores } ) . "\n";
     }
 
     my $score = $opinion->averaged_score($chunk);
