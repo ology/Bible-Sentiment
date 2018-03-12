@@ -1,7 +1,7 @@
 <form style="margin:0; padding:0; text-align: center" method="post" action="/">
     <a href="/?book=[% prevbook %]&chunk=[% chunk %]&term=[% term %]">&laquo;</a>
     &nbsp;
-    <label for="book">Book: </label><select name="book" onchange="this.form.submit()">
+    <label for="book">Book: </label><select name="book">
 [% FOREACH i in books.nsort %]
         <option value="[% books.$i %]" [% books.$i == book ? 'selected' : '' %]>[% i %]</option>
 [% END %]
