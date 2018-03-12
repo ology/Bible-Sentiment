@@ -7,7 +7,9 @@ use Dancer2;
 use lib '/Users/gene/sandbox/Lingua-EN-Opinion/lib';
 use Lingua::EN::Opinion;
 
-use File::Find::Rule
+use File::Find::Rule;
+use List::Util qw( min max sum0 );
+use Statistics::Lite qw( mean );
 
 our $VERSION = '0.01';
 
@@ -49,6 +51,7 @@ any '/' => sub {
     $opinion->analyze();
 
     my @locations;
+    my $score_text = '';
     if ( $chunk == 1 ) {
         my $i = 0;
         for my $sentence ( @{ $opinion->sentences } ) {
@@ -56,6 +59,26 @@ any '/' => sub {
                 if $term && $sentence =~ /$term/;
             $i++;
         }
+
+        my %score;
+        @score{ @{ $opinion->sentences } } = @{ $opinion->scores };
+
+        my $min = min( @{ $opinion->scores } );
+        my $max = max( @{ $opinion->scores } );
+
+        $score_text .= "Most positive sentences:\n\n";
+            for my $positive ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
+                next unless $positive->[0] == $max;
+                $score_text .= "$positive->[1]\n";
+            }
+        $score_text .= "\n";
+        $score_text .= "Most negative sentences:\n\n";
+            for my $negative ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
+                next unless $negative->[0] == $min;
+                $score_text .= "$negative->[1]\n";
+            }
+        $score_text .= "\nAverage sentence score: " . mean( @{ $opinion->scores } ) . "\n";
+        $score_text .= "\nTotal sentence score: " . sum0( @{ $opinion->scores } ) . "\n";
     }
 
     my $score = $opinion->averaged_score($chunk);
@@ -72,6 +95,7 @@ any '/' => sub {
         nextbook  => sprintf( '%02d', $book + 1 ),
         locations => \@locations,
         term      => $term,
+        text      => $score_text,
     };
 };
 

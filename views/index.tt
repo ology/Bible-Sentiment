@@ -75,3 +75,5 @@ new Chart(document.getElementById("line-chart"), {
     }
 });
 </script>
+
+<pre>[% text %]</pre>
