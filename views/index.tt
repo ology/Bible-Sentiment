@@ -76,4 +76,4 @@ new Chart(document.getElementById("line-chart"), {
 });
 </script>
 
-<pre>[% text %]</pre>
+<pre style="padding-left: 10px;">[% text %]</pre>
