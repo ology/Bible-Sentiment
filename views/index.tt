@@ -58,7 +58,7 @@ new Chart(document.getElementById("line-chart"), {
                 data: [[% data.join(',') %]],
                 label: "[% label %]",
                 borderColor: "#3e95cd",
-                pointRadius: 0,
+                pointRadius: 2,
                 fill: true
             }
         ]
