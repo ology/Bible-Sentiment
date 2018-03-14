@@ -71,18 +71,18 @@ any '/' => sub {
             my $min = min( @{ $opinion->scores } );
             my $max = max( @{ $opinion->scores } );
 
-            $score_text .= "Most positive sentences:\n\n";
+            $score_text .= "<b>Most positive sentences</b>:\n\n";
             for my $positive ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
                 next unless $positive->[0] == $max;
                 $score_text .= "$positive->[1]\n";
             }
-            $score_text .= "\nMost negative sentences:\n\n";
+            $score_text .= "\n<b>Most negative sentences</b>:\n\n";
             for my $negative ( map { [ $score{$_} => $_ ] } @{ $opinion->sentences } ) {
                 next unless $negative->[0] == $min;
                 $score_text .= "$negative->[1]\n";
             }
-            $score_text .= "\nAverage sentence score: " . mean( @{ $opinion->scores } ) . "\n";
-            $score_text .= "\nTotal sentence score: " . sum0( @{ $opinion->scores } ) . "\n";
+            $score_text .= "\n<b>Average sentence score</b>: " . mean( @{ $opinion->scores } ) . "\n";
+            $score_text .= "\n<b>Total sentence score</b>: " . sum0( @{ $opinion->scores } ) . "\n";
         }
     }
 
