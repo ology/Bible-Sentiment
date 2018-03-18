@@ -54,15 +54,17 @@ any '/' => sub {
     my $score_text = '';
     if ( $chunk == 1 ) {
         if ( $term ) {
-            $score_text .= "Occurrences of '$term':\n\n";
-            my $i = 0;
+            my $i = 0;  # Position counter
+            my $j = 0;  # Occurance counter
             for my $sentence ( @{ $opinion->sentences } ) {
                 if ( $sentence =~ /$term/ ) {
+                    $j++;
                     push @locations, $i;
                     $score_text .= ( $i + 1 ) . ". $sentence\n\n";
                 }
                 $i++;
             }
+            $score_text = "$j occurrences of '$term':\n\n" . $score_text;
         }
         else {
             my %score;
