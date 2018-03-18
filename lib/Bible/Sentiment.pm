@@ -81,8 +81,9 @@ any '/' => sub {
                 next unless $negative->[0] == $min;
                 $score_text .= "$negative->[1]\n";
             }
-            $score_text .= "\n<b>Average sentence score</b>: " . mean( @{ $opinion->scores } ) . "\n";
             $score_text .= "\n<b>Total sentence score</b>: " . sum0( @{ $opinion->scores } ) . "\n";
+            $score_text .= "\n<b>Total number of sentences</b>: " . scalar( @{ $opinion->sentences } ) . "\n";
+            $score_text .= "\n<b>Average sentence score</b>: " . mean( @{ $opinion->scores } ) . "\n";
         }
     }
 
