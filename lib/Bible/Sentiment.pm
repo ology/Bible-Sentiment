@@ -111,9 +111,7 @@ any '/' => sub {
 };
 
 any '/score' => sub {
-    my $default = 'The quick onyx goblin jumps over the lazy dwarf.';
-
-    my $sentence = body_parameters->get('text') || $default;
+    my $sentence = body_parameters->get('text') || '';
 
     my $opinion = Lingua::EN::Opinion->new();
 
