@@ -110,6 +110,12 @@ any '/' => sub {
     };
 };
 
+=head2 /score
+
+Sentence score page.
+
+=cut
+
 any '/score' => sub {
     my $sentence = body_parameters->get('text') || '';
 
