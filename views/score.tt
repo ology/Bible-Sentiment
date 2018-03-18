@@ -1,0 +1,11 @@
+<form action="/score" method="POST">
+    <textarea name="text" rows="10" cols="30">
+[% text %]
+    </textarea>
+    <br>
+    <input type="submit" value="Evaluate" />
+</form>
+
+<pre>[% score %]</pre>
+<p>
+NRC: <pre>[% nrc_score %]</pre>
