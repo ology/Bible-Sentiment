@@ -55,7 +55,7 @@ any '/' => sub {
     if ( $chunk == 1 ) {
         if ( $term ) {
             my $i = 0;  # Position counter
-            my $j = 0;  # Occurance counter
+            my $j = 0;  # Occurrence counter
             for my $sentence ( @{ $opinion->sentences } ) {
                 if ( $sentence =~ /$term/ ) {
                     $j++;
