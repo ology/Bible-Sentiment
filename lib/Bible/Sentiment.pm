@@ -10,6 +10,9 @@ use Lingua::EN::Opinion;
 use File::Find::Rule;
 use List::Util qw( min max sum0 );
 use Statistics::Lite qw( mean );
+use Data::Dumper;
+$Data::Dumper::Quotekeys = 0;
+$Data::Dumper::Varname   = 'score';
 
 our $VERSION = '0.01';
 
@@ -104,6 +107,21 @@ any '/' => sub {
         locations => \@locations,
         term      => $term,
         text      => $score_text,
+    };
+};
+
+any '/score' => sub {
+    my $default = 'The quick onyx goblin jumps over the lazy dwarf.';
+
+    my $sentence = body_parameters->get('text') || $default;
+
+    my $opinion = Lingua::EN::Opinion->new();
+
+    template 'score' => {
+        title     => 'Bible::Sentiment',
+        text      => $sentence,
+        score     => Dumper( $opinion->get_sentence($sentence) ),
+        nrc_score => Dumper( $opinion->nrc_get_sentence($sentence) ),
     };
 };
 
