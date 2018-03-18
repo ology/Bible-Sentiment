@@ -64,7 +64,7 @@ any '/' => sub {
                 }
                 $i++;
             }
-            $score_text = "$j occurrences of '$term':\n\n" . $score_text;
+            $score_text = "<b>$j occurrences of '$term'</b>:\n\n" . $score_text;
         }
         else {
             my %score;
