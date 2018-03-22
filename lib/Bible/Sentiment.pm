@@ -50,7 +50,7 @@ any '/' => sub {
         }
     }
 
-    my $opinion = Lingua::EN::Opinion->new( file => $file[0] );
+    my $opinion = Lingua::EN::Opinion->new( file => $file[0], stem => 1 );
     $opinion->analyze();
 
     my @locations;
@@ -119,7 +119,7 @@ Sentence score page.
 any '/score' => sub {
     my $sentence = body_parameters->get('text') || '';
 
-    my $opinion = Lingua::EN::Opinion->new();
+    my $opinion = Lingua::EN::Opinion->new( stem => 1 );
 
     template 'score' => {
         title     => 'Bible::Sentiment',
