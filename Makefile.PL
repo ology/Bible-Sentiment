@@ -11,7 +11,7 @@ WriteMakefile(
     NAME                => 'Bible::Sentiment',
     AUTHOR              => q{Gene Boggs <gene@ology.net>},
     VERSION_FROM        => 'lib/Bible/Sentiment.pm',
-    ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
+    ABSTRACT            => 'Show Bible Sentiment Charts',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
@@ -20,6 +20,10 @@ WriteMakefile(
         'Test::More' => 0,
         'YAML'       => 0,
         'Dancer2'     => 0.205002,
+        'Lingua::EN::Opinion' => 0,
+        'File::Find::Rule' => 0,
+        'List::Util' => 0,
+        'Statistics::Lite' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Bible-Sentiment-*' },
