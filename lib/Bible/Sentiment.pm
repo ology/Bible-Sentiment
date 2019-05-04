@@ -22,7 +22,7 @@ Bible::Sentiment - Show Bible Sentiment Charts
 
 =head1 DESCRIPTION
 
-A C<Bible::Sentiment> shows charts of Bible sentiment.
+C<Bible::Sentiment> shows charts of Bible text sentiment analysis.
 
 =head1 ROUTES
 
