@@ -1,4 +1,8 @@
 requires "Dancer2" => "0.205002";
+requires "Lingua::EN::Opinion" => "0",
+requires "File::Find::Rule" => "0",
+requires "List::Util" => "0",
+requires "Statistics::Lite" => "0",
 
 recommends "YAML"             => "0";
 recommends "URL::Encode::XS"  => "0";
