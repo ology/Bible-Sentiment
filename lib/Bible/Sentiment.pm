@@ -95,7 +95,6 @@ any '/' => sub {
     my $score = $opinion->averaged_score($chunk);
 
     template 'index' => {
-        title     => 'Bible::Sentiment',
         labels    => [ 1 .. @$score ],
         data      => $score,
         label     => $name,
@@ -122,7 +121,6 @@ any '/score' => sub {
     my $opinion = Lingua::EN::Opinion->new( stem => 1 );
 
     template 'score' => {
-        title     => 'Bible::Sentiment',
         text      => $sentence,
         score     => Dumper( $opinion->get_sentence($sentence) ),
         nrc_score => Dumper( $opinion->nrc_get_sentence($sentence) ),
